@@ -169,9 +169,9 @@ class Enemy:
         self.kind = kind
         self.boss = kind == "boss"
         self.radius = 29 if self.boss else (18 if kind == "beast" else 15)
-        self.health = 300 if self.boss else (65 if kind == "beast" else 45)
+        self.health = 220 if self.boss else (75 if kind == "beast" else 52)
         self.max_health = self.health
-        self.speed = 68 if self.boss else (100 if kind == "beast" else random.randint(65, 88))
+        self.speed = 56 if self.boss else (108 if kind == "beast" else random.randint(72, 94))
         self.attack_timer = random.uniform(0.5, 1.2)
         self.hit_flash = 0
         self.alive = True
@@ -190,9 +190,9 @@ class Enemy:
                 self.x += direction.x * speed * dt
                 self.y += direction.y * speed * dt
         elif self.attack_timer <= 0 and player.invulnerable <= 0:
-            player.health = max(0, player.health - (14 if self.boss else 10 if self.kind == "beast" else 7))
+            player.health = max(0, player.health - (10 if self.boss else 11 if self.kind == "beast" else 8))
             player.invulnerable = 0.7
-            self.attack_timer = 0.95 if self.boss else 1.2
+            self.attack_timer = 0.85 if self.boss else 1.05
 
     def draw(self, surface):
         if not self.alive:
@@ -265,10 +265,10 @@ class Trap:
 
     def update(self, player, dt):
         self.timer += dt
-        self.active = (self.timer % 2.8) > 1.8
+        self.active = (self.timer % 2.6) > 1.5
         if self.active and distance((self.x, self.y), (player.x, player.y)) < 32:
             if player.invulnerable <= 0:
-                player.health = max(0, player.health - 12)
+                player.health = max(0, player.health - 14)
                 player.invulnerable = 0.8
 
     def draw(self, surface):
@@ -289,8 +289,11 @@ ROOMS = [
      "goal": "Survive the traps and collect the Sun Seal.",
      "enemies": [(230, 270, "soldier"), (750, 300, "beast"), (510, 430, "soldier")]},
     {"name": "3. THE HAUNTED GARDEN", "floor": (32, 52, 43),
-     "goal": "Find the Star Seal and prepare for the Shadow King.",
+     "goal": "Find the Star Seal and survive the haunted garden.",
      "enemies": [(220, 340, "beast"), (770, 270, "soldier"), (520, 250, "beast")]},
+    {"name": "4. THE SHADOW KING'S FORTRESS", "floor": (49, 25, 43),
+     "goal": "Claim the final seal and challenge the Shadow King.",
+     "enemies": [(220, 280, "beast"), (500, 240, "soldier"), (740, 320, "beast"), (520, 460, "soldier")]},
 ]
 
 
@@ -303,7 +306,7 @@ class Game:
         self.state = "intro"
         self.room_index = 0
         self.elapsed = 0.0
-        self.message = "Three lost seals are hidden beyond the castle gates."
+        self.message = "Four ancient seals are hidden across the kingdom."
         self.message_timer = 4.0
         self.enemies = []
         self.treasures = []
@@ -332,7 +335,7 @@ class Game:
                 delta = pygame.Vector2(enemy.x, enemy.y) - p
                 if delta.length() < 72 and (delta.length_squared() == 0 or
                     self.player.facing.dot(delta.normalize()) > -0.1):
-                    enemy.health -= 28 if not enemy.boss else 22
+                    enemy.health -= 28
                     enemy.hit_flash = 0.14
                     if enemy.health <= 0:
                         enemy.alive = False
@@ -340,9 +343,9 @@ class Game:
                         self.say("Shadow defeated! You found a few royal coins.", 1.7)
         if self.boss and self.boss.alive:
             delta = pygame.Vector2(self.boss.x, self.boss.y) - p
-            if delta.length() < 88 and (delta.length_squared() == 0 or
-                self.player.facing.dot(delta.normalize()) > -0.15):
-                self.boss.health -= 22
+            if delta.length() < 110 and (delta.length_squared() == 0 or
+                self.player.facing.dot(delta.normalize()) > -0.35):
+                self.boss.health -= 35
                 self.boss.hit_flash = 0.14
                 if self.boss.health <= 0:
                     self.boss.alive = False
@@ -362,22 +365,22 @@ class Game:
                 else:
                     self.player.seals += 1
                     self.player.health = min(100, self.player.health + 15)
-                    self.say(f"Ancient seal collected! Seals: {self.player.seals}/3")
+                    self.say(f"Ancient seal collected! Seals: {self.player.seals}/4")
                 return
-        if self.room_index < 2 and self.player.x > WIDTH - 95 and self.player.y < HEIGHT - 120:
+        if self.room_index < 3 and self.player.x > WIDTH - 95 and self.player.y < HEIGHT - 120:
             if any(e.alive for e in self.enemies):
                 self.say("The gate is sealed! Defeat every shadow in this room.")
             else:
                 self.room_index += 1
                 self.spawn_room()
                 self.say(f"Entered {ROOMS[self.room_index]['name']}!", 3)
-        elif self.room_index == 2 and not any(e.alive for e in self.enemies):
-            if self.player.seals >= 3:
+        elif self.room_index == 3 and not any(e.alive for e in self.enemies):
+            if self.player.seals >= 4:
                 self.boss = Enemy(WIDTH - 180, 250, "boss")
                 self.state = "boss"
-                self.say("The Shadow King awakens! Strike carefully!", 4)
+                self.say("The Shadow King awakens! Get close and press SPACE to strike!", 4)
             else:
-                self.say(f"The final gate needs 3 seals. You have {self.player.seals}/3.")
+                self.say(f"The Shadow King needs 4 seals. You have {self.player.seals}/4.")
 
     def update(self, dt):
         self.elapsed += dt
@@ -423,13 +426,22 @@ class Game:
             for x, y in [(180, 210), (820, 240), (300, 460), (710, 470)]:
                 pygame.draw.circle(SCREEN, (30, 77, 105), (x, y), 31)
                 pygame.draw.polygon(SCREEN, CYAN, [(x, y - 25), (x + 15, y), (x, y + 25), (x - 15, y)])
-        else:
+        elif self.room_index == 2:
             for x, y in [(150, 200), (850, 190), (170, 500), (820, 500)]:
                 pygame.draw.circle(SCREEN, (38, 85, 55), (x, y), 35)
                 pygame.draw.circle(SCREEN, (85, 156, 93), (x, y), 22, 2)
                 pygame.draw.circle(SCREEN, PINK, (x, y), 5)
+        else:
+            # The Shadow King's fortress: dark pillars and glowing lava cracks
+            for x in (115, 300, 700, 885):
+                pygame.draw.rect(SCREEN, (36, 17, 42), (x - 14, 130, 28, 390))
+                pygame.draw.rect(SCREEN, (103, 45, 82), (x - 18, 130, 36, 10))
+                pygame.draw.rect(SCREEN, (103, 45, 82), (x - 18, 510, 36, 10))
+            for x, y in [(390, 245), (620, 420), (430, 520)]:
+                pygame.draw.line(SCREEN, (150, 38, 76), (x - 22, y - 12), (x + 20, y + 15), 4)
+                pygame.draw.line(SCREEN, (222, 66, 91), (x - 8, y + 12), (x + 18, y - 14), 3)
         # Exit arch and glowing gate
-        if self.room_index < 2:
+        if self.room_index < 3:
             pygame.draw.rect(SCREEN, (77, 51, 91), (WIDTH - 91, 155, 54, 98), border_radius=12)
             pygame.draw.rect(SCREEN, GOLD if not any(e.alive for e in self.enemies) else PURPLE,
                              (WIDTH - 82, 165, 36, 78), 3, border_radius=8)
@@ -447,7 +459,7 @@ class Game:
                          (180, 22, int(195 * self.player.health / 100), 15), border_radius=5)
         draw_text(SCREEN, f"HP {self.player.health}/100", SMALL, WHITE, 180, 43)
         draw_text(SCREEN, f"COINS: {self.player.coins}", SMALL, GOLD, 285, 43)
-        draw_text(SCREEN, f"SEALS: {self.player.seals}/3", SMALL, CYAN, 28, 54)
+        draw_text(SCREEN, f"SEALS: {self.player.seals}/4", SMALL, CYAN, 28, 54)
         draw_text(SCREEN, ROOMS[self.room_index]["name"], SMALL, WHITE, WIDTH // 2, 22, center=True)
         draw_text(SCREEN, ROOMS[self.room_index]["goal"], SMALL, (227, 213, 238),
                   WIDTH // 2, 48, center=True)
@@ -483,11 +495,11 @@ class Game:
             self.overlay()
             draw_text(SCREEN, "SHADOWFALL", TITLE, PURPLE_LIGHT, WIDTH // 2, 190, center=True)
             draw_text(SCREEN, "RISE OF THE LAST KINGDOM", BIG, GOLD, WIDTH // 2, 245, center=True)
-            draw_text(SCREEN, "Play as Princess Aelira and reclaim the three lost seals.", FONT,
+            draw_text(SCREEN, "Play as Princess Aelira and reclaim four ancient seals.", FONT,
                       WHITE, WIDTH // 2, 325, center=True)
             draw_text(SCREEN, "Explore ruined halls, dodge traps, defeat shadow beasts,", FONT,
                       (222, 207, 237), WIDTH // 2, 365, center=True)
-            draw_text(SCREEN, "open treasure chests, and challenge the Shadow King.", FONT,
+            draw_text(SCREEN, "open treasure chests, and enter the Shadow King's fortress.", FONT,
                       (222, 207, 237), WIDTH // 2, 397, center=True)
             draw_text(SCREEN, "Press ENTER to begin your adventure", FONT, GOLD, WIDTH // 2, 470, center=True)
             draw_text(SCREEN, "WASD / Arrows: move     SPACE: attack     E: interact", SMALL,
@@ -501,10 +513,10 @@ class Game:
 
         elif self.state == "victory":
             self.overlay()
-            draw_text(SCREEN, "ELDORIA IS FREE!", TITLE, GOLD, WIDTH // 2, 250, center=True)
+            draw_text(SCREEN, "AELIRA IS FREE!", TITLE, GOLD, WIDTH // 2, 250, center=True)
             draw_text(SCREEN, "Princess Aelira has defeated the Shadow King!", FONT, WHITE,
                       WIDTH // 2, 320, center=True)
-            draw_text(SCREEN, f"Seals: {self.player.seals}/3     Coins collected: {self.player.coins}",
+            draw_text(SCREEN, f"Seals: {self.player.seals}/4     Coins collected: {self.player.coins}",
                       FONT, CYAN, WIDTH // 2, 365, center=True)
             draw_text(SCREEN, "Press R to play again  •  ESC to quit", FONT, GOLD, WIDTH // 2, 425, center=True)
 
