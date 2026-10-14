@@ -8,6 +8,7 @@ import pygame
 # Controls: WASD / arrow keys = move, SPACE = sword attack,
 # E = open chest / activate shrine, R = restart after winning or losing, ESC = quit.
 
+<<<<<<< HEAD
 import audio_support
 
 pygame.init()
@@ -40,6 +41,14 @@ def toggle_fullscreen():
     SCREEN = pygame.display.set_mode((WIDTH, HEIGHT), flags)
     pygame.display.set_caption("SHADOWFALL: Rise of the Last Kingdom")
     return SCREEN
+=======
+pygame.init()
+
+WIDTH, HEIGHT = 1000, 700
+FPS = 60
+SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("SHADOWFALL: Rise of the Last Kingdom")
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 CLOCK = pygame.time.Clock()
 
 # Colours
@@ -558,6 +567,7 @@ def main():
     while running:
         dt = min(CLOCK.tick(FPS) / 1000.0, 0.035)
         for event in pygame.event.get():
+<<<<<<< HEAD
             if event.type == pygame.KEYDOWN and (event.key == pygame.K_F11 or (event.key == pygame.K_RETURN and event.mod & pygame.KMOD_ALT)):
                 toggle_fullscreen()
                 continue
@@ -575,6 +585,11 @@ def main():
                     game_sound("retry")
                 elif event.key in (pygame.K_RETURN, pygame.K_SPACE):
                     game_sound("start")
+=======
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                 if event.key == pygame.K_ESCAPE:
                     running = False
                 elif game.state == "intro" and event.key in (pygame.K_RETURN, pygame.K_SPACE):
@@ -592,6 +607,7 @@ def main():
         game.draw()
         pygame.display.flip()
 
+<<<<<<< HEAD
         # Hand control back to the launcher without closing the game window.
         if game.state == "victory":
             pygame.time.wait(1300)
@@ -602,6 +618,10 @@ def main():
 
     pygame.quit()
     sys.exit(1)
+=======
+    pygame.quit()
+    sys.exit()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
 
 if __name__ == "__main__":

@@ -1,8 +1,11 @@
 import pygame
 import math
 import random
+<<<<<<< HEAD
 import sys
 from array import array
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
 # ============================================================
 # LEVEL 3 - THE FORGOTTEN UNDERKINGDOM
@@ -10,6 +13,7 @@ from array import array
 # No external images are required. Everything is drawn in code.
 # ============================================================
 
+<<<<<<< HEAD
 import audio_support
 
 pygame.init()
@@ -61,10 +65,15 @@ BOSS_SOUND = make_tone(80, 0.55, 0.60, 45)
 DEFEAT_SOUND = make_tone(220, 0.30, 0.55, 70)
 VICTORY_SOUND = make_tone(600, 0.65, 0.65, 1500)
 
+=======
+pygame.init()
+
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 WIDTH, HEIGHT = 1280, 720
 FPS = 60
 WORLD_W, WORLD_H = 3200, 1800
 
+<<<<<<< HEAD
 FULLSCREEN = False
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED)
 pygame.display.set_caption("Level 3 - The Forgotten Underkingdom")
@@ -77,6 +86,10 @@ def toggle_fullscreen():
     screen = pygame.display.set_mode((WIDTH, HEIGHT), flags)
     pygame.display.set_caption("Level 3 - The Forgotten Underkingdom")
     return screen
+=======
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Level 3 - The Forgotten Underkingdom")
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 clock = pygame.time.Clock()
 
 # ---------- Fonts ----------
@@ -313,13 +326,17 @@ class Player:
         return pygame.Rect(int(self.x + 12), int(self.y - 55), 70, 90)
 
     def draw(self, surface, camera):
+<<<<<<< HEAD
         """Draw Aelira in a simple, cute, low-poly princess style."""
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
         x = int(self.x - camera.x)
         y = int(self.y - camera.y)
 
         if self.invuln and self.invuln % 6 < 3:
             return
 
+<<<<<<< HEAD
         # Small ground shadow
         pygame.draw.ellipse(surface, (30, 24, 35), (x - 20, y + 34, 40, 7))
 
@@ -399,6 +416,56 @@ class Player:
         else:
             pygame.draw.line(surface, GOLD, (x + 10, y - 1), (x + 25, y + 14), 3)
             pygame.draw.line(surface, (225, 235, 250), (x + 24, y + 13), (x + 40, y + 28), 2)
+=======
+        # Shadow
+        pygame.draw.ellipse(surface, (10, 8, 20),
+                            (x - 28, y + 25, 56, 16))
+
+        # Cape
+        cape = [
+            (x - 20, y - 15), (x + 18, y - 12),
+            (x + 28, y + 38), (x - 26, y + 42)
+        ]
+        pygame.draw.polygon(surface, (76, 35, 110), cape)
+        pygame.draw.polygon(surface, (135, 65, 170), cape, 3)
+
+        # Body
+        pygame.draw.rect(surface, (42, 44, 72),
+                         (x - 17, y - 10, 34, 45), border_radius=9)
+
+        # Head + hair
+        pygame.draw.circle(surface, (235, 190, 165), (x, y - 32), 17)
+        pygame.draw.circle(surface, (80, 35, 75), (x, y - 38), 18)
+        pygame.draw.polygon(
+            surface, (90, 40, 80),
+            [(x - 17, y - 37), (x - 8, y - 57),
+             (x + 7, y - 54), (x + 18, y - 35)]
+        )
+
+        # Eyes
+        pygame.draw.circle(surface, (70, 220, 245), (x - 6, y - 32), 2)
+        pygame.draw.circle(surface, (70, 220, 245), (x + 6, y - 32), 2)
+
+        # Boots
+        pygame.draw.rect(surface, (28, 28, 45),
+                         (x - 15, y + 31, 12, 20), border_radius=3)
+        pygame.draw.rect(surface, (28, 28, 45),
+                         (x + 3, y + 31, 12, 20), border_radius=3)
+
+        # Sword
+        if self.sword_timer > 0:
+            glow_circle(surface, (x + 62, y - 20), 28, CYAN, 100)
+            pygame.draw.polygon(
+                surface, WHITE,
+                [(x + 15, y - 18), (x + 75, y - 55),
+                 (x + 83, y - 48), (x + 22, y - 7)]
+            )
+            pygame.draw.line(surface, CYAN,
+                             (x + 18, y - 10), (x + 30, y + 5), 5)
+        else:
+            pygame.draw.line(surface, GOLD,
+                             (x + 13, y - 5), (x + 35, y + 18), 5)
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
 
 # ---------- Enemies ----------
@@ -712,8 +779,11 @@ def reset_game():
         tile["gone"] = False
         tile["timer"] = 0
     guardian.hp = guardian.max_hp
+<<<<<<< HEAD
     guardian.active = False
     guardian.attack_cd = 0
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
     seal.opened = False
     set_message("Aelira enters the Forgotten Underkingdom...")
 
@@ -739,37 +809,54 @@ while running:
     dt = clock.tick(FPS) / 1000.0
 
     for event in pygame.event.get():
+<<<<<<< HEAD
         if event.type == pygame.KEYDOWN and (event.key == pygame.K_F11 or (event.key == pygame.K_RETURN and event.mod & pygame.KMOD_ALT)):
             toggle_fullscreen()
             continue
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
         if event.type == pygame.QUIT:
             running = False
 
         if start_screen and event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+<<<<<<< HEAD
                 game_sound("start")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                 start_screen = False
                 reset_game()
 
         elif event.type == pygame.KEYDOWN:
+<<<<<<< HEAD
             if event.key in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d,
                              pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
                 game_sound("move")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
             if event.key == pygame.K_ESCAPE:
                 start_screen = True
             elif event.key in (pygame.K_SPACE, pygame.K_j):
                 player.attack()
+<<<<<<< HEAD
                 game_sound("attack")
             elif event.key == pygame.K_r:
                 game_sound("retry")
                 reset_game()
             elif event.key == pygame.K_e:
                 game_sound("interact")
+=======
+            elif event.key == pygame.K_r:
+                reset_game()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if not start_screen and not game_won:
                 if click_puzzle(event.pos, camera):
+<<<<<<< HEAD
                     game_sound("puzzle")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                     puzzle_solved = True
                     set_message("The four diamonds resonate! The temple awakens.", 240)
 
@@ -825,7 +912,10 @@ while running:
             if not rune.collected:
                 if math.hypot(player.x - rune.x, player.y - rune.y) < 55:
                     rune.collected = True
+<<<<<<< HEAD
                     game_sound("collect")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                     set_message("Ancient rune collected!", 100)
 
         # Puzzle proximity
@@ -840,7 +930,10 @@ while running:
                 if keys[pygame.K_e]:
                     # prevent repeated toggling
                     lever.toggle()
+<<<<<<< HEAD
                     game_sound("interact")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                     set_message(
                         "Temple mechanism activated!" if lever.on
                         else "Lever switched off.", 70
@@ -859,20 +952,30 @@ while running:
                                 enemy.r * 2, enemy.r * 2)
                 ):
                     enemy.hp -= 20
+<<<<<<< HEAD
                     game_sound("hurt")
                     if enemy.hp <= 0:
                         enemies.remove(enemy)
                         game_sound("defeat")
+=======
+                    if enemy.hp <= 0:
+                        enemies.remove(enemy)
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                         set_message("Shadow creature defeated!", 70)
 
             if guardian.active and sword.colliderect(
                 pygame.Rect(guardian.x - 55, guardian.y - 70, 110, 140)
             ):
                 guardian.hp -= 8
+<<<<<<< HEAD
                 game_sound("hurt")
                 if guardian.hp <= 0:
                     guardian.hp = 0
                     game_sound("defeat")
+=======
+                if guardian.hp <= 0:
+                    guardian.hp = 0
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                     set_message(
                         "The Stone Guardian falls. The Third Seal is yours!",
                         240
@@ -881,11 +984,15 @@ while running:
         all_levers = all(l.on for l in levers)
         all_runes = all(r.collected for r in runes)
 
+<<<<<<< HEAD
         was_guardian_active = guardian.active
         guardian.update(player, all_levers and puzzle_solved and all_runes)
         if guardian.active and not was_guardian_active:
             game_sound("gate")
             set_message("The Stone Guardian awakens!", 180)
+=======
+        guardian.update(player, all_levers and puzzle_solved and all_runes)
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
         # Seal becomes available after Guardian is defeated.
         if guardian.hp <= 0 and math.hypot(
@@ -893,7 +1000,10 @@ while running:
         ) < 75:
             seal.opened = True
             game_won = True
+<<<<<<< HEAD
             game_sound("victory")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
             set_message(
                 "Aelira obtains the Third Seal of Wisdom!", 999999
             )
@@ -978,6 +1088,7 @@ while running:
 
     pygame.display.flip()
 
+<<<<<<< HEAD
     # Return to the combined launcher after this level is won or lost.
     if game_won:
         pygame.time.wait(900)
@@ -988,3 +1099,6 @@ while running:
 
 pygame.quit()
 sys.exit(1)
+=======
+pygame.quit()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6

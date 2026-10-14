@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 import sys
+<<<<<<< HEAD
 from array import array
 
 pygame.mixer.pre_init(frequency=22050, size=-16, channels=1, buffer=512)
@@ -21,11 +22,16 @@ def game_sound(name):
 
 if "play_sfx" not in globals():
     audio_support.start_music(1)
+=======
+
+pygame.init()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
 # CASTLE JOURNEY - LEVEL 1: THE FALL OF ELDORIA
 
 WIDTH, HEIGHT = 1000, 650
 WORLD_W, WORLD_H = 1800, 1200
+<<<<<<< HEAD
 FULLSCREEN = False
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED)
 pygame.display.set_caption("Castle Journey - Level 1")
@@ -38,6 +44,10 @@ def toggle_fullscreen():
     screen = pygame.display.set_mode((WIDTH, HEIGHT), flags)
     pygame.display.set_caption("Castle Journey - Level 1")
     return screen
+=======
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Castle Journey - Level 1")
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 clock = pygame.time.Clock()
 
 font = pygame.font.SysFont("arial", 22)
@@ -466,13 +476,17 @@ while running:
     elapsed = (now-game["start"])//1000
 
     for event in pygame.event.get():
+<<<<<<< HEAD
         if event.type == pygame.KEYDOWN and (event.key == pygame.K_F11 or (event.key == pygame.K_RETURN and event.mod & pygame.KMOD_ALT)):
             toggle_fullscreen()
             continue
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
         if event.type == pygame.QUIT:
             running = False
 
         elif event.type == pygame.KEYDOWN:
+<<<<<<< HEAD
             if event.key in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d,
                              pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
                 game_sound("move")
@@ -482,6 +496,8 @@ while running:
                 game_sound("interact")
             elif event.key == pygame.K_r:
                 game_sound("retry")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
             if event.key == pygame.K_ESCAPE:
                 running = False
 
@@ -533,7 +549,10 @@ while running:
                         ):
                             villager["rescued"] = True
                             game["rescued"] += 1
+<<<<<<< HEAD
                             game_sound("rescue")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                             game["score"] += 150
                             show_message("Villager rescued! +150 score")
                             interacted = True
@@ -546,7 +565,10 @@ while running:
                         and nearby(game["player"], game["chest"], 80)
                     ):
                         game["chest_open"] = True
+<<<<<<< HEAD
                         game_sound("collect")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                         game["coins"] += 10
                         game["score"] += 200
                         show_message(
@@ -609,7 +631,10 @@ while running:
                 game["coins"] += 1
                 game["score"] += 25
                 show_message("Coin collected! +25 score", 1000)
+<<<<<<< HEAD
                 game_sound("collect")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
         # Shadow soldiers chase the player
         for enemy in game["enemies"]:
@@ -631,7 +656,10 @@ while running:
                 game["health"] -= 10
                 game["invulnerable"] = now + 850
                 show_message("A shadow soldier hit you! Keep moving.")
+<<<<<<< HEAD
                 game_sound("hurt")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
         # Boss movement and damage
         boss = game["boss"]
@@ -651,7 +679,10 @@ while running:
                 game["health"] -= 18
                 game["invulnerable"] = now + 900
                 show_message("The Traitor Knight struck you! Use SPACE.")
+<<<<<<< HEAD
                 game_sound("hurt")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 
         if game["health"] <= 0 or elapsed >= 240:
             game["state"] = "lost"
@@ -675,6 +706,7 @@ while running:
 
     pygame.display.flip()
 
+<<<<<<< HEAD
     # Return to the launcher as soon as the level has a real result.
     if game["state"] == "won":
         pygame.time.wait(1000)
@@ -685,3 +717,7 @@ while running:
 
 pygame.quit()
 sys.exit(1)
+=======
+pygame.quit()
+sys.exit()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6

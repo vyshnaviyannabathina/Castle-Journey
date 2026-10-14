@@ -1,5 +1,8 @@
 import os
+<<<<<<< HEAD
 import sys
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 import math
 import pygame
 
@@ -8,6 +11,7 @@ import pygame
 # Install: py -3.13 -m pip install pygame
 # Run:     py -3.13 sunfire_princess.py
 
+<<<<<<< HEAD
 import audio_support
 
 pygame.init()
@@ -27,11 +31,15 @@ if "play_sfx" not in globals():
     audio_support.start_music(2)
 
 
+=======
+pygame.init()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 WIDTH, HEIGHT = 1000, 600
 FPS = 60
 GROUND = 500
 WORLD_WIDTH = 2600
 
+<<<<<<< HEAD
 FULLSCREEN = False
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED)
 pygame.display.set_caption("Sunfire Citadel - Princess Aelira")
@@ -44,6 +52,10 @@ def toggle_fullscreen():
     screen = pygame.display.set_mode((WIDTH, HEIGHT), flags)
     pygame.display.set_caption("Sunfire Citadel - Princess Aelira")
     return screen
+=======
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Sunfire Citadel - Princess Aelira")
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("georgia", 21, bold=True)
 small = pygame.font.SysFont("georgia", 16)
@@ -205,6 +217,7 @@ running = True
 while running:
     clock.tick(FPS)
     for event in pygame.event.get():
+<<<<<<< HEAD
         if event.type == pygame.KEYDOWN and (event.key == pygame.K_F11 or (event.key == pygame.K_RETURN and event.mod & pygame.KMOD_ALT)):
             toggle_fullscreen()
             continue
@@ -221,6 +234,11 @@ while running:
                 game_sound("interact")
             elif event.key == pygame.K_r:
                 game_sound("retry")
+=======
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
             if event.key == pygame.K_ESCAPE:
                 running = False
             if event.key == pygame.K_r and (won or lost):
@@ -235,14 +253,20 @@ while running:
                     close_machine = next((m for m in machines if not m["off"] and abs(m["x"] - hero.centerx) < 75), None)
                     if close_prisoner is not None:
                         prisoners.remove(close_prisoner)
+<<<<<<< HEAD
                         game_sound("rescue")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                         rescued += 1
                         hero_health[0] = min(100, hero_health[0] + 8)
                         message = "A royal soldier has joined your cause!"
                         message_timer = 150
                     elif close_machine is not None:
                         close_machine["off"] = True
+<<<<<<< HEAD
                         game_sound("gate")
+=======
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
                         message = "Siege machine disabled!"
                         message_timer = 150
                     else:
@@ -380,6 +404,7 @@ while running:
 
     pygame.display.flip()
 
+<<<<<<< HEAD
     # The launcher takes over after victory/defeat; no window closing needed.
     if won:
         pygame.time.wait(1000)
@@ -390,3 +415,6 @@ while running:
 
 pygame.quit()
 sys.exit(1)
+=======
+pygame.quit()
+>>>>>>> 6e5d6bbd0a8a30576f9e49588f3df2630fbf4cf6
