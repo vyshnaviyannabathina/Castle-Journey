@@ -1,9 +1,3 @@
-"""Main launcher for Princess Aelira's four-level Pygame adventure.
-
-Keep main_game.py, level1.py, level2.py, level3.py, and level4.py in the
-same folder. Install Pygame with: py -3.13 -m pip install pygame
-Run with: py -3.13 main_game.py
-"""
 import os
 import sys
 import math
